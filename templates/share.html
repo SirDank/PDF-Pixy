@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PDF Pixy - Share</title>
+  <link rel="stylesheet" href="./static/share.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+  <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <h1 class="header__title">PDF Pixy - Share</h1>
+    <nav class="header__nav">
+      <ul class="nav__list">
+        <li class="nav__item"><a href="/dashboard">Dashboard</a></li>
+        <li class="nav__item"><a href="/sign-out">Sign Out</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <div class="flash-messages">
+        {% for message in messages %}
+          <div class="flash-message">{{ message }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <!-- Main Content -->
+  <main class="main">
+    <section class="share-section">
+      <form class="share-form" action="/share" method="POST">
+        <select class="share-form__input" name="file" id="file" required>
+          <option disabled selected value="">Select a file</option>
+          {% for file in files %}
+            <option value="{{ file.name }}">{{ file.name }}</option>
+          {% endfor %}
+        </select>
+        <textarea class="share-form__input" name="email" id="share" placeholder="Enter email" required></textarea>
+        <button type="submit" class="share-form__button">Share</button>
+      </form>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p class="footer__text">&copy; 2023 PDF Pixy. All rights reserved.</p>
+  </footer>
+
+  <script>
+    $(document).ready(function() {
+      var duration = 5000;
+      setTimeout(function() {
+        $('.flash-message').fadeOut('slow');
+      }, duration);
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PDF Pixy - Dashboard</title>
+  <link rel="stylesheet" href="./static/dashboard.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+  <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <h1 class="header__title">PDF Pixy - Dashboard</h1>
+    <nav class="header__nav">
+      <ul class="nav__list">
+        <li class="nav__item"><a onclick="document.getElementById('file-input').click()">Upload</a></li>
+        <li class="nav__item"><a href="/share">Share</a></li>
+        <li class="nav__item"><a href="/sign-out">Sign Out</a></li>
+      </ul>
+      <form id="upload-form" action="/upload" method="POST" enctype="multipart/form-data">
+        <input type="file" id="file-input" style="display: none" accept=".pdf" name="file" onchange="handleFileSelect(event)">
+      </form>
+    </nav>
+  </header>
+
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <div class="flash-messages">
+        {% for message in messages %}
+          <div class="flash-message">{{ message }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <!-- Main Content -->
+  <main class="main">
+    <section class="files-section">
+      <div class="section__header">
+        <h2 class="section__title">My Files</h2>
+        <h2 class="section__title">Comments</h2>
+      </div>
+      <ul class="files-list">
+        {% for file in files %}
+        <li class="file-item">
+          <a href="{{ file.url }}" class="file-link" target="_blank">{{ file.name }}</a>
+          <div class="comments-container">
+            {% for comment in comments %}
+              {% if comment.file == file.name %}
+                <div class="comment">
+                  <p class="comment__text">{{ comment.text }}</p>
+                  <p class="comment__info">{{ comment.user }} at {{ comment.date }}</p>
+                </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+        </li>
+        {% endfor %}
+      </ul>
+    </section>
+
+  <section class="comments-section">
+    <form class="comment-form" action="/dashboard" method="POST">
+      <select class="comment-form__input" name="file" id="file" required>
+        <option disabled selected value="">Select a file</option>
+        {% for file in files %}
+          <option value="{{ file.name }}">{{ file.name }}</option>
+        {% endfor %}
+      </select>
+      <textarea class="comment-form__input" name="comment" id="comment" placeholder="Add a comment" required></textarea>
+      <button type="submit" class="comment-form__button">Post</button>
+    </form>
+  </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p class="footer__text">&copy; 2023 PDF Pixy. All rights reserved.</p>
+  </footer>
+
+  <script>
+    $(document).ready(function() {
+      var duration = 5000;
+      setTimeout(function() {
+        $('.flash-message').fadeOut('slow');
+      }, duration);
+    });
+
+    function handleFileSelect(event) {
+      const fileInput = event.target;
+      const form = document.getElementById('upload-form');
+      form.submit();
+    }
+  </script>
+
+</body>
+</html>

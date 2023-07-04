@@ -1,0 +1,7 @@
+{
+    "admin@gmail.com": {
+        "name": "admin",
+        "hash": "pbkdf2:sha256:600000$clfDlZm1RxDkzJ0I$4a27fd931369e2fb295fbe5885dc02c59081b53e8e78c71075739462b6a5dd9e",
+        "ips": []
+    }
+}

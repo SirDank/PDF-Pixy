@@ -1,0 +1,147 @@
+@import "https://unpkg.com/open-props";
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+*:focus {
+  outline-offset: 4px;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.page {
+  color: rgb(0, 0, 0);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-image: url("pdf-pixy.png");
+  display: grid;
+  grid-template-areas: "main";
+  padding: var(--size-4);
+  min-height: 100vh;
+  font-family: var(--font-sans);
+}
+.page__main {
+  grid-area: main;
+}
+
+.main {
+  display: grid;
+  align-items: center;
+}
+.main__form {
+  margin-inline: auto;
+  max-width: 25em;
+}
+
+.form {
+  color: #81e4ed;
+  display: grid;
+  position: relative;
+  width: 100%;
+  padding: var(--size-8);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 1em;
+}
+.form::before {
+  background: rgba(255, 255, 255, 0.3);
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  content: "";
+  z-index: -4000;
+  box-shadow: 0 0 2em rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(5px);
+}
+.form__title {
+  margin-bottom: var(--size-6);
+  font-weight: var(--font-weight-6);
+  font-size: var(--font-size-5);
+  text-align: center;
+}
+
+.form__label {
+  margin-bottom: var(--size-4);
+  display: grid;
+}
+
+.form__input {
+  color: #00e1f9;
+  width: 100%;
+  padding: 0.8em;
+  border: 0;
+  border-radius: var(--radius-2);
+}
+
+.form__footer {
+  margin-top: var(--size-5);
+  display: flex;
+  gap: var(--size-2);
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@media screen and (min-width: 36em) {
+  .form__footer {
+    flex-direction: row;
+  }
+}
+
+.form__link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.form__link:hover {
+  text-decoration: underline;
+}
+
+.primary-btn {
+  color: white;
+  background-color: #00d9ff;
+  padding: 0.9em 1.4em;
+  border: 0;
+  border-radius: var(--radius-2);
+  cursor: pointer;
+}
+
+.primary-btn:hover {
+  background-color: #00e1f9;
+}
+
+.sr-only {
+  position: absolute;
+  margin: -1px;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  border-width: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+.flash-messages {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  max-width: 400px;
+  z-index: 9999;
+}
+
+.flash-message {
+  padding: 10px;
+  margin-bottom: 10px;
+  color: #fff;
+  background-color: #00c8ff;
+  border-radius: 4px;
+}

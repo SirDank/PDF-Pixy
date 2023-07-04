@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PDF Pixy - Sign Up</title>
+  <link rel="stylesheet" href="./static/main.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+  <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+</head>
+<body>
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <div class="flash-messages">
+      {% for message in messages %}
+        <div class="flash-message">{{ message }}</div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+
+<!-- partial:index.partial.html -->
+<body class="page">
+  <main class="main page__main">
+    <form class="form main__form" action="/sign-up" method="POST">
+      <h3 class="form__title">Sign Up</h3>
+      <label class="form__label" for="name"><span class="sr-only">Name</span>
+        <input class="form__input" type="text" id="name" name="name" value="" placeholder="Name" required="required">
+      </label>
+      <label class="form__label" for="email"><span class="sr-only">Email</span>
+        <input class="form__input" type="text" id="email" name="email" value="" placeholder="Email" required="required">
+      </label>
+      <label class="form__label" for="password"><span class="sr-only">Password</span>
+        <input class="form__input" type="password" id="password" name="password" value="" placeholder="Password" required="required">
+      </label>
+      <button class="primary-btn" type="submit">Sign Up</button>
+      <div class="form__footer">
+        <a class="form__link" href="/sign-in">Already have an account? Sign In</a>
+      </div>
+    </form>
+  </main>
+</body>
+<!-- partial -->
+
+<script>
+  $(document).ready(function() {
+    var duration = 5000;
+    setTimeout(function() {
+      $('.flash-message').fadeOut('slow');
+    }, duration);
+  });
+</script>
+
+</body>
+</html>
