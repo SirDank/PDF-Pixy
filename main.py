@@ -41,63 +41,10 @@ app.secret_key = secrets.token_hex(16)
 
 # NOTE: hardcoded for simplicity. Ideally these should be stored in a db / google sheets ( but since these are using json format, its really fast to read and write to them )
 
-#registered_users = json.loads(open('assets/registered_users.json', 'r').read())
-#signed_in_users = json.loads(open('assets/signed_in_users.json', 'r').read())
-#shared_files = json.loads(open('assets/shared_files.json', 'r').read())
-#tokens = json.loads(open('assets/tokens.json', 'r').read())
-
-registered_users = {
-    "admin@gmail.com": {
-        "name": "admin",
-        "hash": "pbkdf2:sha256:600000$clfDlZm1RxDkzJ0I$4a27fd931369e2fb295fbe5885dc02c59081b53e8e78c71075739462b6a5dd9e",
-        "ips": []
-    }
-}
-
-signed_in_users = {
-    "127.0.0.1": {
-        "valid_time": 99999999999999999,
-        "email": "admin@gmail.com"
-    }
-}
-
-shared_files = {
-    "admin@gmail.com": {
-        "sample.pdf": "VhRHZuohDMFBowef",
-        "dummy.pdf": "yaVhCkDbStSPDFIF"
-    }
-}
-
-tokens = {
-    "VhRHZuohDMFBowef": {
-        "path": "admin@gmail.com\\sample.pdf",
-        "comments": [
-            {
-                "file": "sample.pdf",
-                "text": "very cool pdf",
-                "user": "tmp-user1",
-                "date": "3/Jul/23"
-            }
-        ]
-    },
-    "yaVhCkDbStSPDFIF": {
-        "path": "admin@gmail.com\\dummy.pdf",
-        "comments": [
-            {
-                "file": "dummy.pdf",
-                "text": "hope you get recruited X)",
-                "user": "tmp-user1",
-                "date": "3/Jul/23"
-            },
-            {
-                "file": "dummy.pdf",
-                "text": "all the best!",
-                "user": "tmp-user2",
-                "date": "3/Jul/23"
-            }
-        ]
-    }
-}
+registered_users = json.loads(open('assets/registered_users.json', 'r').read())
+signed_in_users = json.loads(open('assets/signed_in_users.json', 'r').read())
+shared_files = json.loads(open('assets/shared_files.json', 'r').read())
+tokens = json.loads(open('assets/tokens.json', 'r').read())
 
 if not os.path.isdir('user_files'):
     os.mkdir('user_files')
