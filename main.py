@@ -215,9 +215,9 @@ def download_pdf():
         
         try: 
             token = request.args.get('token')
-            file = tokens[token]["path"].split('\\')[-1]
+            file = tokens[token]["path"].split('/')[-1] # watch out for path error!
             if token in tokens.keys() and (tokens[token]["path"].startswith(email) or token == get_token(email, file)):
-                return send_file("user_files\\" + tokens[token]["path"], mimetype='application/pdf')
+                return send_file(("user_files/" + tokens[token]["path"]), mimetype='application/pdf') # watch out for path error!
             else:
                 flash('Invalid Token!')
         except:
@@ -255,7 +255,7 @@ def upload_pdf():
                     if not file.filename in get_user_files(email):
                         token = generate_token()
                         shared_files[email][file.filename] = token
-                        tokens[token] = {"path": path.replace('/','\\'), "comments": []}
+                        tokens[token] = {"path": path, "comments": []} # watch out for path error!
 
                 else:
                     flash('No file selected!')
@@ -322,7 +322,7 @@ def user_signed_in(ip):
 
 def save_dicts():
     
-    path = os.path.dirname(__file__) + '\\assets\\'
+    path = os.path.dirname(__file__) + '/assets/' # watch out for path error!
     while True:
         time.sleep(600)
         open(path + 'registered_users.json', 'w+').write(json.dumps(registered_users, indent=4))
