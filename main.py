@@ -68,7 +68,7 @@ def sign_up():
     if request.method == 'GET':
 
         ip = get_ip()
-        if ip in get_signed_in_ips():
+        if user_signed_in(ip):
             return redirect('/dashboard')
         else:
             return render_template('sign-up.html'), 200
