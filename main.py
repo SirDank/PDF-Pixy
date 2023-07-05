@@ -93,12 +93,13 @@ def sign_up():
             flash('Password must be at least 8 characters long!'); _redirect = True
         if _redirect:
             return redirect('/sign-up')
+        else:
 
-        registered_users[email] = {"name": name, "hash": generate_password_hash(password), "ips": [ip]}
-        signed_in_users[ip] = {"valid_time": time.time() + one_day, "email": email}
-        shared_files[email] = {}
-        
-        return redirect('/dashboard')
+            registered_users[email] = {"name": name, "hash": generate_password_hash(password), "ips": [ip]}
+            signed_in_users[ip] = {"valid_time": time.time() + one_day, "email": email}
+            shared_files[email] = {}
+            
+            return redirect('/dashboard')
 
 @app.route('/sign-in', methods=['GET', 'POST'])
 def sign_in():
@@ -116,10 +117,10 @@ def sign_in():
 
     else:
         
+        ip = get_ip()
         _redirect = False
         email = request.form['email']
         password = request.form['password']
-        ip = get_ip()
         
         # validity checks
         
@@ -131,14 +132,14 @@ def sign_in():
             flash('Invalid Password!'); _redirect = True
         if _redirect:
             return redirect('/sign-in')
-        
-        if check_password_hash(registered_users[email]["hash"], password):
-            add_ip_to_log(ip, email)
-            signed_in_users[ip] = {"valid_time": time.time() + one_day, "email": email}
-            return redirect('/dashboard')
         else:
-            flash('Wrong Password!')
-            return redirect('/sign-in')
+            if check_password_hash(registered_users[email]["hash"], password):
+                add_ip_to_log(ip, email)
+                signed_in_users[ip] = {"valid_time": time.time() + one_day, "email": email}
+                return redirect('/dashboard')
+            else:
+                flash('Wrong Password!')
+                return redirect('/sign-in')
 
 @app.route('/sign-out', methods=['GET'])
 def sign_out():
@@ -292,7 +293,9 @@ def share_pdf():
                 
                 if file in get_user_files(email):
                     if receiver_email in get_registered_emails():
-                        if file not in shared_files[receiver_email].keys():
+                        if not "@" in email or not "." in email or len(email) < 6:
+                            flash('Invalid email!')
+                        elif file not in shared_files[receiver_email].keys():
                             token = get_token(email, file)
                             shared_files[receiver_email][file] = token
                         else:
