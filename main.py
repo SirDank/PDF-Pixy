@@ -107,7 +107,7 @@ def sign_in():
     if request.method == 'GET':
 
         ip = get_ip()
-        if ip in get_signed_in_ips():
+        if user_signed_in(ip):
             # log ip
             email = get_email(ip)
             add_ip_to_log(ip, email)
@@ -262,8 +262,11 @@ def upload_pdf():
                     flash('No file selected!')
             except:
                 flash('Failed to upload file!')
+        else:
+            flash('Unauthorised!')
+            redirect('/sign-in')
             
-    return redirect('/dashboard') 
+        return redirect('/dashboard')
 
 @app.route('/share', methods=['GET', 'POST'])
 def share_pdf():
@@ -316,13 +319,6 @@ def share_pdf():
 
 # logic
 
-def user_signed_in(ip):
-    
-    if ip in get_signed_in_ips() and signed_in_users[ip]["valid_time"] > time.time():
-        return True
-    else:
-        return False
-
 def save_dicts():
     
     path = os.path.dirname(__file__) + '/assets/' # watch out for path error!
@@ -342,6 +338,13 @@ def generate_token():
     return token
 
 # shortcuts for better readability
+
+def user_signed_in(ip):
+    
+    if ip in get_signed_in_ips() and signed_in_users[ip]["valid_time"] > time.time():
+        return True
+    else:
+        return False
 
 def get_ip():
     
