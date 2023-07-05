@@ -233,10 +233,10 @@ def download_pdf():
 @app.route('/upload', methods=['GET', 'POST'])
 def upload_pdf():
 
-    if request.method == 'POST':
+    ip = get_ip()
+    if user_signed_in(ip):
         
-        ip = get_ip()
-        if user_signed_in(ip):
+        if request.method == 'POST':
 
             email = get_email(ip)
             
@@ -262,11 +262,13 @@ def upload_pdf():
                     flash('No file selected!')
             except:
                 flash('Failed to upload file!')
-        else:
-            flash('Unauthorised!')
-            redirect('/sign-in')
-            
+        
         return redirect('/dashboard')
+            
+                
+    else:
+        flash('Unauthorised!')
+        redirect('/sign-in')
 
 @app.route('/share', methods=['GET', 'POST'])
 def share_pdf():
