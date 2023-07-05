@@ -215,7 +215,8 @@ def download_pdf():
         
         try: 
             token = request.args.get('token')
-            if token in tokens.keys() and (tokens[token]["path"].startswith(email) or token == shared_files[email][tokens[token]["path"].split('\\')[-1]]):
+            file = tokens[token]["path"].split('\\')[-1]
+            if token in tokens.keys() and (tokens[token]["path"].startswith(email) or token == get_token(email, file)):
                 return send_file("user_files\\" + tokens[token]["path"], mimetype='application/pdf')
             else:
                 flash('Invalid Token!')
