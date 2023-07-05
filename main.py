@@ -292,10 +292,10 @@ def share_pdf():
                 receiver_email = request.form['email']
                 
                 if file in get_user_files(email):
-                    if receiver_email in get_registered_emails():
-                        if not "@" in email or not "." in email or len(email) < 6:
-                            flash('Invalid email!')
-                        elif file not in shared_files[receiver_email].keys():
+                    if not "@" in email or not "." in email or len(email) < 6:
+                        flash('Invalid email!')
+                    elif receiver_email in get_registered_emails():
+                        if file not in shared_files[receiver_email].keys():
                             token = get_token(email, file)
                             shared_files[receiver_email][file] = token
                         else:
