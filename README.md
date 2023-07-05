@@ -36,6 +36,8 @@
 - The website uses a simple ip based authentication system for login.
 - A user is automatically logged in on other devices if he/she is already logged in on one device.
 - A user remains authenticated for a maximum of one day.
+- Users can share pdf files owned by them to other registered users.
+- Users can comment on both uploaded and shared pdf files.
 - User data is stored in json format in the following files under the asset folder: `registered_users.json`, `signed_in_users.json`, `shared_files.json`, `tokens.json`
 - `registered_users.json`: every login ip associated with its email is logged here along with the hashed password and the name of the user.
 ```json
