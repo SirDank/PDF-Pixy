@@ -244,8 +244,17 @@ def upload_pdf():
             
             try:
                 file = request.files['file']
-                if file.filename != '':
-                    
+                
+                if file.filename == '':
+                    flash('No file selected!')
+                elif not file.filename.endswith('.pdf'):
+                    flash('Invalid file type!')
+                elif len(file.filename) > 100:
+                    flash('File name too long!')
+                elif len(file.read()) > 10000000:
+                    flash('File size too large!')
+                else:
+
                     path = f"{email}/{file.filename}"
                     if os.path.isfile(path):
                         os.remove(path)
@@ -258,8 +267,6 @@ def upload_pdf():
                         shared_files[email][file.filename] = token
                         tokens[token] = {"path": path, "comments": []} # watch out for path error!
 
-                else:
-                    flash('No file selected!')
             except:
                 flash('Failed to upload file!')
         
